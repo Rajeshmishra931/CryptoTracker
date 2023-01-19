@@ -1,4 +1,5 @@
 import React from "react";
+import { Carousel } from "./Carousel";
 
 const useStyles = makeStyles(() => ({
   banner: {
@@ -48,6 +49,7 @@ const Banner = () => {
             Get all the Info regarding your favorite Crypto Currency
           </Typography>
         </div>
+        <Carousel/>
       </Container>
     </div>
   );
