@@ -2,15 +2,18 @@ import {
   AppBar, 
   Container,
   createTheme,
-  makestyles, 
+  usestyles,
   MenuItem, Select,
   Toolbar,
   Typography, 
   ThemeProvider,
 } from '@material-ui/core'
 
+import { makeStyles} from '@mui/styles'
 import React from 'react'
-import {useHistory} from "react-router-dom";
+import {useNavigate} from 'react-router-dom'
+import { CryptoState } from "../CryptoContext";
+
 const useStyles = makeStyles(() => ({
   title: {
     flex: 1,
@@ -27,7 +30,7 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = usestyles();
 
-  const history = useHistory();
+  const history = useNavigate();
 
   const { currency, setCurrency } = CryptoState();
 
