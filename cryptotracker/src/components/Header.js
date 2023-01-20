@@ -1,15 +1,12 @@
 import { 
   AppBar, 
   Container,
-  createTheme,
-  usestyles,
   MenuItem, Select,
   Toolbar,
   Typography, 
-  ThemeProvider,
 } from '@material-ui/core'
 
-import { makeStyles} from '@mui/styles'
+import { createTheme, ThemeProvider, makeStyles,} from '@material-ui/core/styles'
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import { CryptoState } from "../CryptoContext";
@@ -28,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 
 const Header = () => {
-  const classes = usestyles();
+  const classes = useStyles();
 
   const history = useNavigate();
 
@@ -47,7 +44,7 @@ const Header = () => {
     <AppBar color = 'transparent' position = 'static'>
       <Container>
         <Toolbar>
-          <Typography onClick={() => history.push("/")} classNamse={classes.title} variant='h5'>
+          <Typography onClick={() => history.push("/")} className={classes.title} variant='h5'>
             Crypto Hunter
           </Typography>
           <Select variant = 'outlined' 

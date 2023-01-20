@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LinearProgress, makeStyles } from "@material-ui/core";
+import {  makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { TrendingCoins } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
@@ -31,7 +31,10 @@ export const Carousel = () => {
     const [trending, setTrending] = useState([]);
     const { currency, symbol } = CryptoState();
 
+    console.log("top.......")
+
     const fetchTrendingCoins = async () => {
+      console.log("here..................")
       const { data } = await axios.get(TrendingCoins(currency));
   
       console.log(data);
@@ -102,3 +105,6 @@ export const Carousel = () => {
       />
   </div>  
 };
+
+
+export default Carousel;

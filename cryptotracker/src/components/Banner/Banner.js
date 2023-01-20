@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Banner = () => {
+  console.log("start....")
   const classes = useStyles();
 
   return (
