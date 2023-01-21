@@ -1,30 +1,33 @@
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Pagination from "@material-ui/lab/Pagination";
 import {
-    Container,
-    createTheme,
-    TableCell,
-    LinearProgress,
-    ThemeProvider,
-    Typography,
-    TextField,
-    TableBody,
-    TableRow,
-    TableHead,
-    TableContainer,
-    Table,
-    Paper,
-  } from "@material-ui/core";
-import React, { useEffect } from 'react'
+  Container,
+  createTheme,
+  TableCell,
+  LinearProgress,
+  ThemeProvider,
+  Typography,
+  TextField,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableContainer,
+  Table,
+  Paper,
+} from "@material-ui/core";
 import axios from "axios";
-import { useState } from 'react';
-import { CoinList } from '../config/api';
-import { CryptoState } from '../CryptoContext';
+import { CoinList } from "../config/api";
+import { useNavigate } from "react-router-dom";
+import { CryptoState } from "../CryptoContext";
+import {numberWithCommas} from './Banner/Carousel'
 
 const CoinsTable = () => {
-    const [coins, setCoins] = useState([]);
+        const [coins, setCoins] = useState([]);
         const[loading , setLoading] = useState(false);
         const [search, setSearch] = useState("");
-
-        const { currency } = CryptoState();
+        const [page, setPage] = useState(1);
+        const { currency, symbol } = CryptoState();
 
         const fetchCoins = async () =>{
             setLoading(true)
@@ -73,7 +76,7 @@ const CoinsTable = () => {
       });
     
       const classes = useStyles();
-      const history = useHistory();
+      const history = useNavigate();
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -106,7 +109,7 @@ const CoinsTable = () => {
                         fontFamily: "Montserrat",
                       }}
                       key={head}
-                      align={head === "Coin" ? "" : "right"}
+                      align= {head === "Coin" ? "" : "right"}
                     >
                       {head}
                     </TableCell>
@@ -183,6 +186,21 @@ const CoinsTable = () => {
             </Table>
           )}
         </TableContainer>
+                  <Pagination
+                    style={{
+                      padding: 20,
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+
+                    classes = {{ ul: classes.pagination}}
+                    count = {(handleSearch()?.length/10).toFixed(0)}
+                    onChange={(_, value) => {
+                      setPage(value);
+                      window.scroll(0, 450);
+                    }}
+                  />
         </Container>
     </ThemeProvider>
   )
