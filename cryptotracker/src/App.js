@@ -22,7 +22,7 @@ function App() {
       <div>
         <Header/>
         <Routes>
-          <Route path="/" element={<Homepage/>} exact />
+          <Route path="/" element={<Homepage/>}  />
           <Route path="/coins/:id" element={<CoinPage/>} />
         </Routes>
       </div>
