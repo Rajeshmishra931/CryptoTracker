@@ -20,75 +20,79 @@ import axios from "axios";
 import { CoinList } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
-import {numberWithCommas} from './Banner/Carousel'
 
-const CoinsTable = () => {
-        const [coins, setCoins] = useState([]);
-        const[loading , setLoading] = useState(false);
-        const [search, setSearch] = useState("");
-        const [page, setPage] = useState(1);
-        const { currency, symbol } = CryptoState();
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-        const fetchCoins = async () =>{
-            setLoading(true)
-            const { data } = await axios.get(CoinList(currency));
-            setCoins(data);
-            setLoading(false);
-        };
+export default function CoinsTable() {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
 
-        useEffect(() =>{
-            fetchCoins();
-        },[currency]);
+  const { currency, symbol } = CryptoState();
 
+  const useStyles = makeStyles({
+    row: {
+      backgroundColor: "#16171a",
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: "#131111",
+      },
+      fontFamily: "Montserrat",
+    },
+    pagination: {
+      "& .MuiPaginationItem-root": {
+        color: "gold",
+      },
+    },
+  });
 
+  const classes = useStyles();
+  const history = useNavigate();
 
-    const darkTheme = createTheme({
-        palette:{
-            primary:{
-                main:"#fff",
-            },
-            type: "dark",
-        },
-    });
+  const darkTheme = createTheme({
+    palette: {
+      primary: {
+        main: "#fff",
+      },
+      type: "dark",
+    },
+  });
 
-    const handleSearch = () => {
-        return coins.filter(
-          (coin) =>
-            coin.name.toLowerCase().includes(search) ||
-            coin.symbol.toLowerCase().includes(search)
-        );
-      };
+  const fetchCoins = async () => {
+    setLoading(true);
+    const { data } = await axios.get(CoinList(currency));
+    console.log(data);
 
-      const useStyles = makeStyles({
-        row: {
-          backgroundColor: "#16171a",
-          cursor: "pointer",
-          "&:hover": {
-            backgroundColor: "#131111",
-          },
-          fontFamily: "Montserrat",
-        },
-        pagination: {
-          "& .MuiPaginationItem-root": {
-            color: "gold",
-          },
-        },
-      });
-    
-      const classes = useStyles();
-      const history = useNavigate();
+    setCoins(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchCoins();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currency]);
+
+  const handleSearch = () => {
+    return coins.filter(
+      (coin) =>
+        coin.name.toLowerCase().includes(search) ||
+        coin.symbol.toLowerCase().includes(search)
+    );
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
-        <Container style ={{textAlign : "center"}}>
-            <Typography
-            variant = "h4"
-            style={{margin : 18 , fontFamily: "Monteserrat"}}
-            >
-                Cryptocurrency Prices by Market Cap
-
-            </Typography>
-            <TextField
+      <Container style={{ textAlign: "center" }}>
+        <Typography
+          variant="h4"
+          style={{ margin: 18, fontFamily: "Montserrat" }}
+        >
+          Cryptocurrency Prices by Market Cap
+        </Typography>
+        <TextField
           label="Search For a Crypto Currency.."
           variant="outlined"
           style={{ marginBottom: 20, width: "100%" }}
@@ -109,7 +113,7 @@ const CoinsTable = () => {
                         fontFamily: "Montserrat",
                       }}
                       key={head}
-                      align= {head === "Coin" ? "" : "right"}
+                      align={head === "Coin" ? "" : "right"}
                     >
                       {head}
                     </TableCell>
@@ -186,24 +190,23 @@ const CoinsTable = () => {
             </Table>
           )}
         </TableContainer>
-                  <Pagination
-                    style={{
-                      padding: 20,
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
 
-                    classes = {{ ul: classes.pagination}}
-                    count = {(handleSearch()?.length/10).toFixed(0)}
-                    onChange={(_, value) => {
-                      setPage(value);
-                      window.scroll(0, 450);
-                    }}
-                  />
-        </Container>
+        {/* Comes from @material-ui/lab */}
+        <Pagination
+          count={(handleSearch()?.length / 10).toFixed(0)}
+          style={{
+            padding: 20,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          classes={{ ul: classes.pagination }}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 450);
+          }}
+        />
+      </Container>
     </ThemeProvider>
-  )
+  );
 }
-
-export default CoinsTable
