@@ -2,7 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { CryptoState } from "../CryptoContext";
 import { HistoricalChart } from "../config/api";
-import { createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
+import { CircularProgress,createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
+import SelectButton from "./SelectButton";
+import { Line } from "react-chartjs-2";
+import { chartDays } from "../config/data";
 
 const CoinInfo = ({ coin }) => {
   const [historicData, setHistoricData] = useState();
@@ -79,9 +82,34 @@ const CoinInfo = ({ coin }) => {
                   },
                 ],
               }}
-              
+              options={{
+                elements: {
+                  point: {
+                    radius: 1,
+                  },
+                },
+              }}  
             />
-            
+            <div
+              style={{
+                display: "flex",
+                marginTop: 20,
+                justifyContent: "space-around",
+                width: "100%",
+              }}
+            >
+              {chartDays.map((day) => (
+                <SelectButton
+                  key={day.value}
+                  onClick={() => {setDays(day.value);
+                    setflag(false);
+                  }}
+                  selected={day.value === days}
+                >
+                  {day.label}
+                </SelectButton>
+              ))}
+            </div>
               
           </>
         )}
