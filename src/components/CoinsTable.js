@@ -113,7 +113,7 @@ export default function CoinsTable() {
                         fontFamily: "Montserrat",
                       }}
                       key={head}
-                      align={head === "Coin" ? "" : "right"}
+                      align={head === "Coin" ? "left" : "right"}
                     >
                       {head}
                     </TableCell>
@@ -128,7 +128,7 @@ export default function CoinsTable() {
                     const profit = row.price_change_percentage_24h > 0;
                     return (
                       <TableRow
-                        onClick={() => history.push(`/coins/${row.id}`)}
+                        onClick={() => history(`/coins/${row.id}`)}
                         className={classes.row}
                         key={row.name}
                       >
@@ -193,7 +193,7 @@ export default function CoinsTable() {
 
         {/* Comes from @material-ui/lab */}
         <Pagination
-          count={(handleSearch()?.length / 10).toFixed(0)}
+          count={Number((handleSearch()?.length / 10).toFixed(0))}
           style={{
             padding: 20,
             width: "100%",

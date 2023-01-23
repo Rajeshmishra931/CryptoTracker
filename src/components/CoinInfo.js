@@ -1,38 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CryptoState } from "../CryptoContext";
 import { HistoricalChart } from "../config/api";
-import { CircularProgress,createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
-import SelectButton from "./SelectButton";
 import { Line } from "react-chartjs-2";
+import {
+  CircularProgress,
+  createTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core";
+import SelectButton from "./SelectButton";
 import { chartDays } from "../config/data";
+import { CryptoState } from "../CryptoContext";
 
 const CoinInfo = ({ coin }) => {
   const [historicData, setHistoricData] = useState();
   const [days, setDays] = useState(1);
   const { currency } = CryptoState();
-  const fetchHistoricData = async () => {
-    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
-    
-    setHistoricData(data.prices);
-  };
+  const [flag,setflag] = useState(false);
 
-  useEffect(() => {
-    fetchHistoricData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency, days]);
-
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#fff",
-      },
-      type: "dark",
-    },
-  });
-
-  const useStyles = makeStyles(() => ({
-
+  const useStyles = makeStyles((theme) => ({
     container: {
       width: "75%",
       display: "flex",
@@ -49,13 +35,35 @@ const CoinInfo = ({ coin }) => {
       },
     },
   }));
+
   const classes = useStyles();
+
+  const fetchHistoricData = async () => {
+    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
+    setflag(true);
+    setHistoricData(data.prices);
+  };
+
+  console.log(coin);
+
+  useEffect(() => {
+    fetchHistoricData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [days]);
+
+  const darkTheme = createTheme({
+    palette: {
+      primary: {
+        main: "#fff",
+      },
+      type: "dark",
+    },
+  });
 
   return (
     <ThemeProvider theme={darkTheme}>
       <div className={classes.container}>
-      
-      {!historicData | flag===false ? (
+        {!historicData | flag===false ? (
           <CircularProgress
             style={{ color: "gold" }}
             size={250}
@@ -88,7 +96,7 @@ const CoinInfo = ({ coin }) => {
                     radius: 1,
                   },
                 },
-              }}  
+              }}
             />
             <div
               style={{
@@ -110,7 +118,6 @@ const CoinInfo = ({ coin }) => {
                 </SelectButton>
               ))}
             </div>
-              
           </>
         )}
       </div>

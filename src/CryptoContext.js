@@ -1,6 +1,6 @@
-import React, { Children, createContext ,useState,useEffect, useContext} from 'react'
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-const Crypto = createContext()
+const Crypto = createContext();
 
 const CryptoContext = ({ children }) => {
   const [currency, setCurrency] = useState("INR");
