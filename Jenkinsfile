@@ -19,6 +19,8 @@ pipeline
     {
       steps 
       {
+        bat 'npm install request'
+        bat 'npm install assert'
         bat 'node src/tests/TestCoinApi.js'
       }
     }
