@@ -5,7 +5,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 const Alert = () => {
   const { alert, setAlert } = CryptoState();
 
-  const handleClose = (event, reason) => {
+  const handleCloseAlert = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
