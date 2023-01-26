@@ -6,7 +6,7 @@ import { CryptoState } from "../../CryptoContext";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { numberWithCommas } from "../CoinsTable";
-import { AiFillDelete } from "react-icons/ai";
+
 import { doc, setDoc } from "firebase/firestore";
 
 const useStyles = makeStyles({
@@ -162,6 +162,7 @@ export default function UserSidebar() {
                   <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
                     Watchlist
                   </span>
+
                   {coins.map((coin) => {
                     if (watchlist.includes(coin.id))
                       return (
@@ -174,6 +175,25 @@ export default function UserSidebar() {
                               style={{ cursor: "pointer" }}
                               fontSize="16"
                               onClick={() => removeFromWatchlist(coin)}
+                            />
+                          </span>
+                        </div>
+                      );
+                    else return <></>;
+                  })}
+
+                  {coins.map((coin) => {
+                    if (watchlist.includes(coin.id))
+                      return (
+                        <div className={classes.coin}>
+                          <span>{coin.name}</span>
+                          <span style={{ display: "flex", gap: 8 }}>
+                            {symbol}{" "}
+                            {/* {numberWithCommas(coin.current_price.toFixed(2))}
+                            <AiFillDelete
+                              style={{ cursor: "pointer" }}
+                              fontSize="16"
+                              onClick={() => removeFromWatchlist(coin)} */}
                             />
                           </span>
                         </div>
